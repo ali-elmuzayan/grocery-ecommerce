@@ -1,21 +1,14 @@
-import { Link, Outlet } from "react-router";
+import { Navigate, Outlet } from "react-router";
+import useAuthStore from "@/hooks/useAuthStore";
 
 const ProtectedLayout = () => {
-  const admin = false;
+  const { isAuthenticated } = useAuthStore();
 
-  if (!admin) {
-    return (
-      <div>
-        Not authorized <Link to="/">Go to home</Link>
-      </div>
-    );
+  if (!isAuthenticated) {
+    return <Navigate to="/auth/login" replace />;
   }
 
-  return (
-    <div>
-      <Outlet />
-    </div>
-  );
+  return <Outlet />;
 };
 
 export default ProtectedLayout;
